@@ -1,0 +1,130 @@
+🚀 HOW TO RUN REPORTSAMJHO WITH GEMINI AI
+══════════════════════════════════════════════
+
+STEP 1 — Get your FREE Gemini API Key
+──────────────────────────────────────
+1. Open browser → go to: https://aistudio.google.com/app/apikey
+2. Sign in with your Google account
+3. Click "Create API Key"
+4. Copy the key (looks like: AIzaSy...)
+
+
+STEP 2 — Add the key to .env file
+────────────────────────────────────
+Open backend/.env and replace:
+   GEMINI_API_KEY=your_gemini_api_key_here
+
+With your actual key:
+   GEMINI_API_KEY=AIzaSy...your_actual_key_here
+
+
+STEP 3 — Open VS Code terminal → go to backend folder
+───────────────────────────────────────────────────────
+cd backend
+
+
+STEP 4 — Install all packages
+───────────────────────────────
+npm install
+
+(This installs: express, mongoose, multer, pdf-parse,
+ tesseract.js, @google/generative-ai, bcryptjs, jwt, etc.)
+
+NOTE: tesseract.js is a big package — may take 2-3 minutes.
+
+
+STEP 5 — Make sure MongoDB is running
+───────────────────────────────────────
+Check Windows Services → MongoDB Server → Start
+
+
+STEP 6 — Start the server
+───────────────────────────
+npm start
+
+You should see:
+   🚀 ReportSamjho Server → http://localhost:5001
+   ✅ MongoDB Connected Successfully!
+   ✅ Gemini API Key loaded!
+
+
+STEP 7 — Open the website
+───────────────────────────
+http://localhost:5001
+
+
+HOW THE REAL-TIME ANALYSIS WORKS
+══════════════════════════════════
+1. User uploads PDF or image
+2. Backend saves file and returns reportId immediately
+3. In background:
+   → PDF  : pdf-parse extracts text
+   → Image: tesseract.js reads text using OCR
+4. Extracted text is sent to Gemini AI
+5. Gemini explains report in simple Hindi or English
+6. Result saved to MongoDB
+7. Frontend polls /api/reports/status/:id every 3 seconds
+8. When status = "done" → result is shown to user
+
+
+API ENDPOINTS
+══════════════
+
+AUTH
+────
+POST   /api/auth/register          → Create account
+POST   /api/auth/login             → Login
+GET    /api/auth/profile           → Get profile (needs token)
+
+REPORTS
+───────
+POST   /api/reports/upload         → Upload + analyze (needs token)
+GET    /api/reports/status/:id     → Check analysis status (polling)
+GET    /api/reports                → Get all my reports (needs token)
+GET    /api/reports/:id            → Get single report (needs token)
+DELETE /api/reports/:id            → Delete report (needs token)
+
+CONTACT
+───────
+POST   /api/contact                → Submit contact form
+
+
+TEST WITH POSTMAN
+══════════════════
+
+1. Register:
+   POST http://localhost:5001/api/auth/register
+   {
+     "name": "Rishi",
+     "email": "rishi@gmail.com",
+     "password": "rishi123"
+   }
+
+2. Login → copy the token from response
+
+3. Upload Report:
+   POST http://localhost:5001/api/reports/upload
+   Headers: Authorization: Bearer YOUR_TOKEN
+   Body: form-data
+     key: report  →  select a blood test PDF or photo
+     key: language → Hindi  (or English)
+
+4. Check Status (poll every few seconds):
+   GET http://localhost:5001/api/reports/status/REPORT_ID_HERE
+   Headers: Authorization: Bearer YOUR_TOKEN
+
+   Response when processing:
+   { "status": "processing" }
+
+   Response when done:
+   {
+     "status": "done",
+     "aiResult": {
+       "summary": "Aapki blood report normal hai...",
+       "keyFindings": [...],
+       "normalValues": [...],
+       "abnormalValues": [...],
+       "advice": "...",
+       "disclaimer": "..."
+     }
+   }

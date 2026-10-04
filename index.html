@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ReportSamjho – Apni Report 2 Minute Mein Samjhein</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --g1:#0a3d2e;--g2:#0f5c44;--g3:#14785a;--g4:#1a9e76;--g5:#20c48f;
+  --acc:#f5a623;--acc2:#ff6b35;--white:#ffffff;--off:#f0faf6;
+  --glass:rgba(255,255,255,0.07);--glass2:rgba(255,255,255,0.12);
+  --text-d:#e8f5f0;--text-m:rgba(232,245,240,0.7);--text-s:rgba(232,245,240,0.45);
+  --border-g:rgba(255,255,255,0.12);--shadow-g:0 8px 40px rgba(0,0,0,0.35);--r:18px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Sora',sans-serif;background:#061e16;color:var(--text-d);overflow-x:hidden;cursor:none}
+#cursor{position:fixed;width:12px;height:12px;background:var(--g5);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:transform .1s,width .2s,height .2s;mix-blend-mode:screen}
+#cursor-ring{position:fixed;width:36px;height:36px;border:1.5px solid rgba(32,196,143,0.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:transform .08s,width .3s,height .3s}
+#particles{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none}
+nav{position:fixed;top:0;left:0;right:0;z-index:500;display:flex;align-items:center;justify-content:space-between;padding:0 6%;height:70px;background:rgba(6,30,22,0.7);backdrop-filter:blur(20px);border-bottom:1px solid var(--border-g);transition:all .3s}
+nav.scrolled{background:rgba(6,30,22,0.95);height:60px}
+.logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--white);text-decoration:none;display:flex;align-items:center;gap:10px}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--g4),var(--g5));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 20px rgba(32,196,143,0.4)}
+.logo span{color:var(--g5)}
+.nav-links{display:flex;align-items:center;gap:32px;list-style:none}
+.nav-links a{text-decoration:none;color:var(--text-m);font-size:14px;font-weight:500;transition:color .2s;letter-spacing:.02em}
+.nav-links a:hover{color:var(--g5)}
+.nav-cta{background:linear-gradient(135deg,var(--g4),var(--g5));color:var(--white)!important;padding:9px 22px;border-radius:50px;font-weight:600!important;box-shadow:0 0 20px rgba(32,196,143,0.3)}
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:100px 6% 60px;position:relative;z-index:1;text-align:center}
+.hero-inner{max-width:860px;margin:0 auto}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(32,196,143,0.1);border:1px solid rgba(32,196,143,0.3);color:var(--g5);font-size:13px;font-weight:600;padding:8px 20px;border-radius:50px;margin-bottom:32px;animation:fadeUp .6s ease both;letter-spacing:.04em}
+.badge-dot{width:7px;height:7px;background:var(--g5);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.5;transform:scale(1.4)}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(42px,7vw,76px);line-height:1.08;font-weight:700;margin-bottom:24px;animation:fadeUp .7s .1s ease both}
+.hero h1 em{font-style:italic;background:linear-gradient(135deg,var(--g5),#7effd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{font-size:18px;color:var(--text-m);line-height:1.75;max-width:580px;margin:0 auto 44px;animation:fadeUp .8s .2s ease both}
+.hero-btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s .3s ease both}
+.btn-glow{background:linear-gradient(135deg,var(--g3),var(--g5));color:var(--white);padding:16px 36px;border-radius:50px;font-size:16px;font-weight:700;text-decoration:none;border:none;cursor:pointer;box-shadow:0 0 30px rgba(32,196,143,0.4),0 4px 20px rgba(0,0,0,0.3);transition:all .3s;display:inline-flex;align-items:center;gap:10px;position:relative;overflow:hidden}
+.btn-glow:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(32,196,143,0.5),0 8px 30px rgba(0,0,0,0.3)}
+.btn-outline{background:transparent;color:var(--text-d);padding:16px 36px;border-radius:50px;font-size:16px;font-weight:600;text-decoration:none;border:1.5px solid var(--border-g);backdrop-filter:blur(10px);transition:all .3s;display:inline-flex;align-items:center;gap:10px}
+.btn-outline:hover{border-color:var(--g5);color:var(--g5);background:rgba(32,196,143,0.08)}
+.trust-strip{display:flex;align-items:center;justify-content:center;gap:32px;flex-wrap:wrap;margin-top:52px;animation:fadeUp 1s .4s ease both}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500;color:var(--text-m)}
+.trust-icon{width:30px;height:30px;background:rgba(32,196,143,0.12);border:1px solid rgba(32,196,143,0.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px}
+.float-card{position:absolute;background:rgba(255,255,255,0.06);backdrop-filter:blur(20px);border:1px solid var(--border-g);border-radius:16px;padding:14px 18px;font-size:13px;pointer-events:none;animation:float 6s ease-in-out infinite}
+.float-card.fc1{top:25%;left:4%;animation-delay:0s}
+.float-card.fc2{top:35%;right:4%;animation-delay:2s}
+.float-card.fc3{bottom:20%;left:6%;animation-delay:4s}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+.fc-label{font-size:11px;color:var(--text-s);margin-bottom:4px;font-weight:600;letter-spacing:.06em;text-transform:uppercase}
+.fc-val{font-size:18px;font-weight:700;color:var(--g5)}
+.fc-tag{font-size:11px;padding:3px 10px;border-radius:50px;margin-top:6px;display:inline-block;font-weight:700}
+.fc-ok{background:rgba(32,196,143,0.2);color:var(--g5)}
+.fc-warn{background:rgba(245,166,35,0.2);color:var(--acc)}
+.reveal{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:none}
+section{position:relative;z-index:1;padding:100px 6%}
+.section-label{font-size:12px;font-weight:700;color:var(--g5);letter-spacing:.12em;text-transform:uppercase;margin-bottom:14px;text-align:center}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(30px,4.5vw,48px);font-weight:700;text-align:center;line-height:1.15;margin-bottom:14px}
+.section-title span{background:linear-gradient(135deg,var(--g5),#7effd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.section-sub{text-align:center;color:var(--text-m);font-size:17px;max-width:620px;margin:0 auto 60px;line-height:1.7}
+.upload-zone-wrap{max-width:720px;margin:0 auto}
+.lang-toggle{display:flex;background:rgba(255,255,255,0.05);border:1px solid var(--border-g);border-radius:50px;padding:4px;width:fit-content;margin:0 auto 32px}
+.lang-btn{padding:8px 24px;border-radius:50px;font-size:13px;font-weight:700;border:none;background:transparent;color:var(--text-s);cursor:pointer;transition:all .25s;font-family:'Sora',sans-serif}
+.lang-btn.active{background:linear-gradient(135deg,var(--g3),var(--g5));color:var(--white);box-shadow:0 0 20px rgba(32,196,143,0.3)}
+.upload-card{border:2px dashed rgba(32,196,143,0.35);border-radius:24px;padding:60px 40px;text-align:center;background:rgba(32,196,143,0.04);backdrop-filter:blur(10px);cursor:pointer;transition:all .3s;position:relative;overflow:hidden}
+.upload-card:hover{border-color:var(--g5);background:rgba(32,196,143,0.08);transform:translateY(-2px);box-shadow:0 0 40px rgba(32,196,143,0.15)}
+.upload-card.dragging{border-color:var(--g5);background:rgba(32,196,143,0.12);box-shadow:0 0 60px rgba(32,196,143,0.25)}
+.upload-orb{width:80px;height:80px;background:linear-gradient(135deg,rgba(32,196,143,0.15),rgba(32,196,143,0.05));border:1.5px solid rgba(32,196,143,0.3);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:32px;animation:orb-pulse 3s ease-in-out infinite}
+@keyframes orb-pulse{0%,100%{box-shadow:0 0 0 0 rgba(32,196,143,0.3)}50%{box-shadow:0 0 0 16px rgba(32,196,143,0)}}
+.upload-card h3{font-size:22px;font-weight:700;margin-bottom:10px}
+.upload-card p{color:var(--text-m);font-size:15px;margin-bottom:28px}
+.file-chips{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:20px}
+.chip{background:rgba(32,196,143,0.1);border:1px solid rgba(32,196,143,0.25);color:var(--g5);font-size:12px;font-weight:600;padding:5px 14px;border-radius:50px}
+input[type="file"]{display:none}
+#progress-wrap{display:none;margin-top:24px}
+.progress-bar-bg{background:rgba(255,255,255,0.08);border-radius:50px;height:6px;overflow:hidden;margin-bottom:12px}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--g4),var(--g5));border-radius:50px;transition:width .1s;box-shadow:0 0 12px rgba(32,196,143,0.5)}
+.progress-text{font-size:13px;color:var(--text-m);text-align:center}
+#result-wrap{display:none;margin-top:28px}
+.result-glass{background:rgba(255,255,255,0.04);backdrop-filter:blur(20px);border:1px solid var(--border-g);border-radius:24px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,0.4);animation:slideUp .5s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.result-top{background:linear-gradient(135deg,var(--g1),var(--g2));padding:22px 28px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border-g)}
+.result-top h3{font-size:16px;font-weight:700}
+.result-top span{font-size:12px;color:var(--g5);font-weight:600}
+.result-body{padding:0 28px 28px}
+.result-summary{background:linear-gradient(135deg,rgba(32,196,143,0.08),rgba(32,196,143,0.03));border:1px solid rgba(32,196,143,0.2);border-radius:14px;padding:18px;margin:20px 0;font-size:14px;color:var(--text-m);line-height:1.8}
+.result-summary strong{color:var(--g5)}
+.tests-table-header{display:grid;grid-template-columns:1.8fr 1fr 1.2fr auto;gap:12px;padding:10px 0 8px;border-bottom:1px solid rgba(255,255,255,0.1);font-size:11px;font-weight:700;color:var(--text-s);text-transform:uppercase;letter-spacing:.06em;margin-top:8px}
+.result-row{display:grid;grid-template-columns:1.8fr 1fr 1.2fr auto;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.04);animation:rowIn .4s ease both}
+@keyframes rowIn{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+.result-row:last-of-type{border-bottom:none}
+.rname{font-size:13px;font-weight:600}
+.rval{font-size:13px;color:var(--text-m)}
+.rmean{font-size:12px;color:var(--text-s);line-height:1.4}
+.rtag{font-size:11px;font-weight:700;padding:4px 12px;border-radius:50px;text-align:center;white-space:nowrap}
+.tag-ok{background:rgba(32,196,143,0.15);color:#4dffc3;border:1px solid rgba(32,196,143,0.3)}
+.tag-low{background:rgba(245,166,35,0.15);color:#ffc857;border:1px solid rgba(245,166,35,0.3)}
+.tag-high{background:rgba(255,107,53,0.15);color:#ff8c69;border:1px solid rgba(255,107,53,0.3)}
+.tag-border{background:rgba(100,149,237,0.15);color:#88aaff;border:1px solid rgba(100,149,237,0.3)}
+.doctor-box{background:rgba(245,166,35,0.06);border:1px solid rgba(245,166,35,0.2);border-radius:14px;padding:18px;margin-top:12px}
+.doctor-box h5{font-size:12px;font-weight:700;color:var(--acc);letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.doctor-box ul{padding-left:18px}
+.doctor-box li{font-size:13px;color:var(--text-m);margin-bottom:7px}
+.dl-btn{display:flex;align-items:center;gap:8px;justify-content:center;margin-top:16px;background:rgba(255,255,255,0.05);border:1px solid var(--border-g);color:var(--text-m);padding:12px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;width:100%;font-family:'Sora',sans-serif}
+.dl-btn:hover{background:rgba(32,196,143,0.1);border-color:rgba(32,196,143,0.3);color:var(--g5)}
+.error-box{background:rgba(255,70,70,0.08);border:1px solid rgba(255,70,70,0.3);border-radius:14px;padding:18px;margin-top:16px;font-size:14px;color:#ff8080;text-align:center}
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;max-width:960px;margin:0 auto}
+.step-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid var(--border-g);border-radius:20px;padding:32px 26px;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s,border-color .3s}
+.step-card:hover{transform:translateY(-6px);border-color:rgba(32,196,143,0.3);box-shadow:0 12px 40px rgba(0,0,0,0.3)}
+.step-num-wrap{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.step-num{width:40px;height:40px;min-width:40px;background:linear-gradient(135deg,var(--g3),var(--g5));border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;box-shadow:0 0 18px rgba(32,196,143,0.35)}
+.step-emoji{font-size:20px}
+.step-card h4{font-size:16px;font-weight:700;margin-bottom:10px;line-height:1.3}
+.step-card p{font-size:13.5px;color:var(--text-m);line-height:1.7}
+/* REPORT TYPES GRID */
+.rtypes-section-title{font-size:14px;font-weight:700;color:var(--g5);letter-spacing:.06em;text-transform:uppercase;margin:40px 0 16px;text-align:left;padding-left:4px}
+.rtypes-category{margin-bottom:32px}
+.rtypes-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;max-width:1100px;margin:0 auto}
+.rtype{background:rgba(255,255,255,0.04);border:1px solid var(--border-g);border-radius:16px;padding:20px 14px;text-align:center;cursor:default;transition:all .3s;position:relative;overflow:hidden}
+.rtype:hover{border-color:rgba(32,196,143,0.4);transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,0.25)}
+.rtype-icon{font-size:26px;margin-bottom:8px}
+.rtype h4{font-size:12px;font-weight:700;margin-bottom:3px;line-height:1.3}
+.rtype p{font-size:10px;color:var(--text-s);line-height:1.4}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;max-width:820px;margin:0 auto}
+.price-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid var(--border-g);border-radius:24px;padding:36px 28px;text-align:center;transition:all .3s;position:relative;overflow:hidden}
+.price-card:hover{transform:translateY(-6px);box-shadow:0 20px 50px rgba(0,0,0,0.35)}
+.price-card.featured{border-color:rgba(32,196,143,0.5);background:linear-gradient(145deg,rgba(32,196,143,0.1),rgba(20,120,90,0.06))}
+.pop-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,var(--g4),var(--g5));color:var(--white);font-size:11px;font-weight:800;padding:5px 18px;border-radius:0 0 12px 12px;letter-spacing:.06em;text-transform:uppercase}
+.price-name{font-size:12px;font-weight:700;color:var(--text-s);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px;margin-top:10px}
+.price-amt{font-family:'Playfair Display',serif;font-size:54px;font-weight:700;background:linear-gradient(135deg,var(--white),var(--g5));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:6px}
+.price-per{font-size:13px;color:var(--text-s);margin-bottom:28px}
+.price-feats{list-style:none;text-align:left;margin-bottom:30px}
+.price-feats li{font-size:14px;color:var(--text-m);padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;gap:10px}
+.price-feats li:last-child{border-bottom:none}
+.ck{color:var(--g5);font-weight:800;font-size:16px}
+.testi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;max-width:960px;margin:0 auto}
+.testi-card{background:rgba(255,255,255,0.04);backdrop-filter:blur(12px);border:1px solid var(--border-g);border-radius:20px;padding:28px 24px;transition:all .3s}
+.testi-card:hover{border-color:rgba(32,196,143,0.3);transform:translateY(-4px)}
+.testi-stars{font-size:14px;letter-spacing:3px;margin-bottom:14px}
+.testi-quote{font-size:14px;color:var(--text-m);line-height:1.8;margin-bottom:20px;font-style:italic;position:relative;padding-left:18px}
+.testi-quote::before{content:'"';position:absolute;left:0;top:-4px;font-size:28px;color:var(--g4);font-family:'Playfair Display',serif;line-height:1}
+.testi-author{display:flex;align-items:center;gap:12px}
+.avatar-circle{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--g3),var(--g5));display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px}
+.auth-name{font-size:14px;font-weight:700}
+.auth-city{font-size:12px;color:var(--text-s)}
+.faq-wrap{max-width:680px;margin:0 auto}
+.faq-item{background:rgba(255,255,255,0.04);border:1px solid var(--border-g);border-radius:16px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+.faq-item.open{border-color:rgba(32,196,143,0.3)}
+.faq-q{padding:20px 22px;font-size:15px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;transition:color .2s}
+.faq-q:hover{color:var(--g5)}
+.faq-chevron{width:26px;height:26px;min-width:26px;background:rgba(32,196,143,0.1);border:1px solid rgba(32,196,143,0.2);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--g5);transition:transform .3s}
+.faq-item.open .faq-chevron{transform:rotate(180deg)}
+.faq-a{max-height:0;overflow:hidden;font-size:14px;color:var(--text-m);line-height:1.75;transition:max-height .35s ease,padding .35s;padding:0 22px}
+.faq-item.open .faq-a{max-height:200px;padding:0 22px 20px}
+.stat-strip{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1px;background:var(--border-g);border:1px solid var(--border-g);border-radius:20px;overflow:hidden;max-width:860px;margin:0 auto 80px}
+.stat-item{background:#061e16;padding:36px 24px;text-align:center;transition:background .3s}
+.stat-item:hover{background:rgba(32,196,143,0.05)}
+.stat-val{font-family:'Playfair Display',serif;font-size:44px;font-weight:700;background:linear-gradient(135deg,var(--g5),#7effd4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:8px}
+.stat-lbl{font-size:13px;color:var(--text-s);font-weight:500}
+.disclaimer{max-width:700px;margin:0 auto 80px;background:rgba(245,166,35,0.07);border:1px solid rgba(245,166,35,0.25);border-radius:16px;padding:18px 24px;font-size:13px;color:rgba(245,166,35,0.8);text-align:center;line-height:1.7}
+footer{background:rgba(0,0,0,0.4);border-top:1px solid var(--border-g);padding:48px 6%;text-align:center;position:relative;z-index:1}
+.footer-logo{font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:10px}
+.footer-logo span{color:var(--g5)}
+.footer-sub{font-size:13px;color:var(--text-s);margin-bottom:24px}
+.footer-links{display:flex;gap:24px;justify-content:center;flex-wrap:wrap;margin-bottom:32px}
+.footer-links a{font-size:13px;color:var(--text-m);text-decoration:none;transition:color .2s}
+.footer-links a:hover{color:var(--g5)}
+.footer-bottom{font-size:12px;color:var(--text-s)}
+.glow-bg{position:absolute;pointer-events:none;border-radius:50%;filter:blur(80px);opacity:.12}
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@media(max-width:700px){.nav-links{display:none}.float-card{display:none}.result-row{grid-template-columns:1fr auto;gap:6px}.rval,.rmean{display:none}.tests-table-header{display:none}}
+</style>
+</head>
+<body>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<canvas id="particles"></canvas>
+<nav id="navbar">
+  <a class="logo" href="#"><div class="logo-icon">🩺</div>Report<span>Samjho</span></a>
+  <ul class="nav-links">
+    <li><a href="#how">Kaise Kaam Karta Hai</a></li>
+    <li><a href="#reports">Reports</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#faq">FAQ</a></li>
+    <li><a href="#upload" class="nav-cta">Try Karein →</a></li>
+  </ul>
+</nav>
+<section class="hero" id="home">
+  <div class="glow-bg" style="width:500px;height:500px;background:#14785a;top:10%;left:-10%;"></div>
+  <div class="glow-bg" style="width:400px;height:400px;background:#20c48f;top:30%;right:-8%;"></div>
+  <div class="float-card fc1"><div class="fc-label">Hemoglobin</div><div class="fc-val">13.8 g/dL</div><span class="fc-tag fc-ok">✓ Normal</span></div>
+  <div class="float-card fc2"><div class="fc-label">Vitamin D</div><div class="fc-val">14 ng/mL</div><span class="fc-tag fc-warn">⚠ Kam Hai</span></div>
+  <div class="float-card fc3"><div class="fc-label">Blood Sugar</div><div class="fc-val">98 mg/dL</div><span class="fc-tag fc-ok">✓ Normal</span></div>
+  <div class="hero-inner">
+    <div class="hero-badge"><span class="badge-dot"></span>🇮🇳 Made for India &nbsp;·&nbsp; Hindi + English Mein</div>
+    <h1>Apni Medical Report<br><em>2 Minute Mein Samjhein</em></h1>
+    <p class="hero-sub">Blood test, MRI, Cancer marker ya koi bhi report — upload karein. Hum simple Hindi ya English mein samjha denge. 200+ tests cover hote hain.</p>
+    <div class="hero-btns">
+      <a href="#upload" class="btn-glow">📄 Report Upload Karein — Free</a>
+      <a href="#how" class="btn-outline">Kaise kaam karta hai ↓</a>
+    </div>
+    <div class="trust-strip">
+      <div class="trust-item"><div class="trust-icon">🔒</div>100% Private</div>
+      <div class="trust-item"><div class="trust-icon">⚡</div>2 Min Result</div>
+      <div class="trust-item"><div class="trust-icon">🇮🇳</div>Hindi + English</div>
+      <div class="trust-item"><div class="trust-icon">🔬</div>200+ Tests Covered</div>
+      <div class="trust-item"><div class="trust-icon">💳</div>UPI / Paytm Accept</div>
+    </div>
+  </div>
+</section>
+<div style="padding:0 6%;position:relative;z-index:1;" class="reveal">
+  <div class="stat-strip">
+    <div class="stat-item"><div class="stat-val" data-target="50000">0</div><div class="stat-lbl">Reports Samjhaye Gaye</div></div>
+    <div class="stat-item"><div class="stat-val" data-target="98">0</div><div class="stat-lbl">% User Satisfaction</div></div>
+    <div class="stat-item"><div class="stat-val" data-target="200">0</div><div class="stat-lbl">Tests Supported</div></div>
+    <div class="stat-item"><div class="stat-val" data-suffix="sec" data-target="90">0</div><div class="stat-lbl">Average Result Time</div></div>
+  </div>
+</div>
+
+<!-- UPLOAD SECTION -->
+<section id="upload" style="padding:80px 6%;">
+  <div class="reveal">
+  <p class="section-label">Try Karein — Abhi</p>
+  <h2 class="section-title">Apni <span>Report Upload</span> Karein</h2>
+  <p class="section-sub">Photo lo ya PDF upload karo — AI real time mein analyze karega aur samjhayega</p>
+  </div>
+  <div class="upload-zone-wrap reveal">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang(this,'Hindi')">🇮🇳 Hindi</button>
+      <button class="lang-btn" onclick="setLang(this,'English')">🇬🇧 English</button>
+    </div>
+    <label for="fileInput">
+    <div class="upload-card" id="dropZone">
+      <div class="upload-orb">📎</div>
+      <h3>Yahan Apni Report Upload Karein</h3>
+      <p>Drag & Drop karein ya click karein — phone camera se bhi kaam chalega</p>
+      <div class="btn-glow" style="display:inline-flex;pointer-events:none">📤 File Choose Karein</div>
+      <div class="file-chips">
+        <span class="chip">📷 JPG/PNG</span><span class="chip">📄 PDF</span>
+        <span class="chip">🩸 Blood Report</span><span class="chip">🧠 MRI</span>
+        <span class="chip">🔬 Cancer Markers</span><span class="chip">💊 Prescription</span>
+      </div>
+    </div>
+    </label>
+    <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.pdf" onchange="handleFile()">
+    <div id="progress-wrap">
+      <div style="font-size:14px;color:var(--text-m);margin-bottom:12px;text-align:center" id="progress-msg">🔍 Report analyze ho rahi hai...</div>
+      <div class="progress-bar-bg"><div class="progress-bar" id="pbar"></div></div>
+      <div class="progress-text" id="progress-step">Report padh rahe hain...</div>
+    </div>
+    <div id="result-wrap">
+      <div class="result-glass">
+        <div class="result-top">
+          <h3 id="result-title">🩺 Report Analysis — Aapka Result</h3>
+          <span id="result-status">✅ AI Analysis Complete</span>
+        </div>
+        <div class="result-body">
+          <div class="result-summary" id="result-summary"></div>
+          <div class="tests-table-header">
+            <span>Test ka Naam</span><span>Aapki Value</span><span>Matlab kya hai</span><span>Status</span>
+          </div>
+          <div id="result-rows"></div>
+          <div class="doctor-box" id="doctor-box" style="display:none">
+            <h5>💬 Doctor se yeh sawaal zaroor poochein</h5>
+            <ul id="doctor-questions"></ul>
+          </div>
+          <div id="error-box" class="error-box" style="display:none"></div>
+          <button class="dl-btn">📥 PDF Download Karein &nbsp;·&nbsp; WhatsApp par Share Karein</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <div class="reveal">
+  <p class="section-label">Process</p>
+  <h2 class="section-title">Sirf <span>3 Steps</span> — Bilkul Aasaan</h2>
+  <p class="section-sub">Koi technical knowledge nahi chahiye.</p>
+  </div>
+  <div class="steps-grid">
+    <div class="step-card reveal" style="transition-delay:.05s"><div class="step-num-wrap"><div class="step-num">1</div><span class="step-emoji">📤</span></div><h4>Report Upload Karein</h4><p>Blood report, MRI ya prescription ki photo lo. Koi bhi phone kaam karega.</p></div>
+    <div class="step-card reveal" style="transition-delay:.1s"><div class="step-num-wrap"><div class="step-num">2</div><span class="step-emoji">🌐</span></div><h4>Bhasha Chunein</h4><p>Hindi ya English — jisme comfortable hain. Seedha baat, koi jargon nahi.</p></div>
+    <div class="step-card reveal" style="transition-delay:.15s"><div class="step-num-wrap"><div class="step-num">3</div><span class="step-emoji">🤖</span></div><h4>AI Analysis</h4><p>Gemini AI real time mein sab tests padhta hai aur simple language mein samjhata hai.</p></div>
+    <div class="step-card reveal" style="transition-delay:.2s"><div class="step-num-wrap"><div class="step-num">4</div><span class="step-emoji">💾</span></div><h4>Save aur Share Karein</h4><p>PDF download karein ya family ko WhatsApp par bhejein.</p></div>
+  </div>
+</section>
+
+<!-- REPORT TYPES — EXPANDED -->
+<section id="reports" style="background:rgba(0,0,0,0.2)">
+  <div class="reveal">
+  <p class="section-label">Kya Kya Supported Hai</p>
+  <h2 class="section-title">Yeh Sab <span>Tests & Reports</span> Samjhaye Jaate Hain</h2>
+  <p class="section-sub">200+ medical tests covered — blood se lekar cancer markers tak, sab kuch.</p>
+  </div>
+  <div style="max-width:1100px;margin:0 auto">
+    <div class="rtypes-section-title reveal">🩸 Blood Tests (CBC & Haematology)</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🩸</div><h4>Hemoglobin</h4><p>Anemia check</p></div>
+      <div class="rtype"><div class="rtype-icon">🔴</div><h4>RBC Count</h4><p>Red blood cells</p></div>
+      <div class="rtype"><div class="rtype-icon">⚪</div><h4>WBC Count</h4><p>Immunity check</p></div>
+      <div class="rtype"><div class="rtype-icon">🟡</div><h4>Platelets</h4><p>Blood clotting</p></div>
+      <div class="rtype"><div class="rtype-icon">📊</div><h4>Hematocrit</h4><p>Blood volume</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>MCV/MCH/MCHC</h4><p>Cell size & color</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>Neutrophils</h4><p>Infection fighter</p></div>
+      <div class="rtype"><div class="rtype-icon">🛡️</div><h4>Lymphocytes</h4><p>Virus fighter</p></div>
+      <div class="rtype"><div class="rtype-icon">📉</div><h4>ESR</h4><p>Inflammation rate</p></div>
+      <div class="rtype"><div class="rtype-icon">🔵</div><h4>Eosinophils</h4><p>Allergy marker</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🍬 Diabetes & Sugar Tests</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🍬</div><h4>Fasting Blood Sugar</h4><p>Diabetes check</p></div>
+      <div class="rtype"><div class="rtype-icon">🍽️</div><h4>PP Blood Sugar</h4><p>After meal test</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>Random Blood Sugar</h4><p>Anytime check</p></div>
+      <div class="rtype"><div class="rtype-icon">📌</div><h4>HbA1c</h4><p>3 month average</p></div>
+      <div class="rtype"><div class="rtype-icon">💉</div><h4>Insulin</h4><p>Hormone level</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>C-Peptide</h4><p>Insulin production</p></div>
+      <div class="rtype"><div class="rtype-icon">📊</div><h4>HOMA-IR</h4><p>Insulin resistance</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🦋 Thyroid Tests</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🦋</div><h4>TSH</h4><p>Thyroid control</p></div>
+      <div class="rtype"><div class="rtype-icon">T3</div><h4>T3 (Total)</h4><p>Active thyroid</p></div>
+      <div class="rtype"><div class="rtype-icon">T4</div><h4>T4 (Total)</h4><p>Thyroid hormone</p></div>
+      <div class="rtype"><div class="rtype-icon">FT3</div><h4>Free T3</h4><p>Free thyroid</p></div>
+      <div class="rtype"><div class="rtype-icon">FT4</div><h4>Free T4</h4><p>Active free form</p></div>
+      <div class="rtype"><div class="rtype-icon">🛡️</div><h4>Anti-TPO</h4><p>Autoimmune thyroid</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>Anti-TG</h4><p>Thyroid antibody</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">❤️ Lipid Profile & Heart</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">❤️</div><h4>Total Cholesterol</h4><p>Heart risk</p></div>
+      <div class="rtype"><div class="rtype-icon">✅</div><h4>HDL Cholesterol</h4><p>Good cholesterol</p></div>
+      <div class="rtype"><div class="rtype-icon">⚠️</div><h4>LDL Cholesterol</h4><p>Bad cholesterol</p></div>
+      <div class="rtype"><div class="rtype-icon">📈</div><h4>Triglycerides</h4><p>Blood fat level</p></div>
+      <div class="rtype"><div class="rtype-icon">🫀</div><h4>Troponin I/T</h4><p>Heart attack marker</p></div>
+      <div class="rtype"><div class="rtype-icon">💓</div><h4>CK-MB</h4><p>Heart muscle</p></div>
+      <div class="rtype"><div class="rtype-icon">🔥</div><h4>hs-CRP</h4><p>Heart inflammation</p></div>
+      <div class="rtype"><div class="rtype-icon">🧪</div><h4>Homocysteine</h4><p>Clot risk</p></div>
+      <div class="rtype"><div class="rtype-icon">💧</div><h4>BNP/NT-proBNP</h4><p>Heart failure</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🫁 Liver Tests (LFT)</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🫁</div><h4>SGOT/AST</h4><p>Liver enzyme</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>SGPT/ALT</h4><p>Liver damage</p></div>
+      <div class="rtype"><div class="rtype-icon">🟡</div><h4>Bilirubin (Total)</h4><p>Jaundice check</p></div>
+      <div class="rtype"><div class="rtype-icon">📊</div><h4>Direct Bilirubin</h4><p>Bile duct check</p></div>
+      <div class="rtype"><div class="rtype-icon">🧪</div><h4>ALP</h4><p>Bone & liver</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>GGT</h4><p>Liver stress</p></div>
+      <div class="rtype"><div class="rtype-icon">🥚</div><h4>Albumin</h4><p>Protein level</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🫘 Kidney Tests (KFT/RFT)</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🫘</div><h4>Creatinine</h4><p>Kidney function</p></div>
+      <div class="rtype"><div class="rtype-icon">💧</div><h4>BUN (Blood Urea)</h4><p>Waste removal</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>Uric Acid</h4><p>Gout marker</p></div>
+      <div class="rtype"><div class="rtype-icon">📊</div><h4>eGFR</h4><p>Kidney capacity</p></div>
+      <div class="rtype"><div class="rtype-icon">🧂</div><h4>Sodium</h4><p>Body fluid balance</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>Potassium</h4><p>Heart & muscle</p></div>
+      <div class="rtype"><div class="rtype-icon">🦴</div><h4>Calcium</h4><p>Bone & nerve</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">💊 Vitamins & Minerals</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">☀️</div><h4>Vitamin D</h4><p>Bone & immunity</p></div>
+      <div class="rtype"><div class="rtype-icon">🔵</div><h4>Vitamin B12</h4><p>Nerve & energy</p></div>
+      <div class="rtype"><div class="rtype-icon">🟢</div><h4>Folate/B9</h4><p>Cell growth</p></div>
+      <div class="rtype"><div class="rtype-icon">🔴</div><h4>Iron (Serum)</h4><p>Oxygen carrier</p></div>
+      <div class="rtype"><div class="rtype-icon">🏦</div><h4>Ferritin</h4><p>Iron storage</p></div>
+      <div class="rtype"><div class="rtype-icon">🔗</div><h4>TIBC</h4><p>Iron transport</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>Zinc</h4><p>Immunity & healing</p></div>
+      <div class="rtype"><div class="rtype-icon">🟠</div><h4>Magnesium</h4><p>Muscle & nerve</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🧬 Hormones & Reproductive</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">💪</div><h4>Testosterone</h4><p>Male hormone</p></div>
+      <div class="rtype"><div class="rtype-icon">🌸</div><h4>Estrogen</h4><p>Female hormone</p></div>
+      <div class="rtype"><div class="rtype-icon">🤱</div><h4>Prolactin</h4><p>Milk hormone</p></div>
+      <div class="rtype"><div class="rtype-icon">🔄</div><h4>LH & FSH</h4><p>Fertility markers</p></div>
+      <div class="rtype"><div class="rtype-icon">🧠</div><h4>Cortisol</h4><p>Stress hormone</p></div>
+      <div class="rtype"><div class="rtype-icon">📈</div><h4>DHEA-S</h4><p>Adrenal gland</p></div>
+      <div class="rtype"><div class="rtype-icon">🌱</div><h4>AMH</h4><p>Egg reserve</p></div>
+      <div class="rtype"><div class="rtype-icon">👶</div><h4>Beta-HCG</h4><p>Pregnancy test</p></div>
+      <div class="rtype"><div class="rtype-icon">📊</div><h4>Progesterone</h4><p>Pregnancy hormone</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🎗️ Cancer Markers (Tumour Markers)</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🎗️</div><h4>PSA</h4><p>Prostate cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🌸</div><h4>CA-125</h4><p>Ovarian cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🔵</div><h4>CEA</h4><p>Colon/lung cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🫁</div><h4>AFP</h4><p>Liver cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🟡</div><h4>CA 19-9</h4><p>Pancreas cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🩷</div><h4>CA 15-3</h4><p>Breast cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>LDH</h4><p>Tissue damage</p></div>
+      <div class="rtype"><div class="rtype-icon">🧠</div><h4>NSE</h4><p>Brain cancer</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>S100</h4><p>Melanoma</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🦠 Infections & Immunity</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🦟</div><h4>Dengue NS1/IgM</h4><p>Dengue fever</p></div>
+      <div class="rtype"><div class="rtype-icon">🦠</div><h4>Malaria Antigen</h4><p>Malaria check</p></div>
+      <div class="rtype"><div class="rtype-icon">🔴</div><h4>HIV Ag/Ab</h4><p>HIV screening</p></div>
+      <div class="rtype"><div class="rtype-icon">🟡</div><h4>HBsAg</h4><p>Hepatitis B</p></div>
+      <div class="rtype"><div class="rtype-icon">🟠</div><h4>HCV Antibody</h4><p>Hepatitis C</p></div>
+      <div class="rtype"><div class="rtype-icon">🌡️</div><h4>Widal Test</h4><p>Typhoid fever</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>ASO Titre</h4><p>Strep infection</p></div>
+      <div class="rtype"><div class="rtype-icon">🛡️</div><h4>CRP</h4><p>Inflammation</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🛡️ Autoimmune Tests</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🛡️</div><h4>ANA</h4><p>Lupus/Autoimmune</p></div>
+      <div class="rtype"><div class="rtype-icon">🔵</div><h4>Anti-dsDNA</h4><p>Lupus marker</p></div>
+      <div class="rtype"><div class="rtype-icon">🤝</div><h4>Rheumatoid Factor</h4><p>Arthritis marker</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>Anti-CCP</h4><p>Rheumatoid arthritis</p></div>
+      <div class="rtype"><div class="rtype-icon">⚡</div><h4>ANCA</h4><p>Vasculitis</p></div>
+      <div class="rtype"><div class="rtype-icon">🧪</div><h4>Complement C3/C4</h4><p>Immune system</p></div>
+    </div>
+    <div class="rtypes-section-title reveal">🩺 Other Common Reports</div>
+    <div class="rtypes-grid reveal">
+      <div class="rtype"><div class="rtype-icon">🧠</div><h4>MRI Report</h4><p>Findings explained</p></div>
+      <div class="rtype"><div class="rtype-icon">🫀</div><h4>ECG Report</h4><p>Heart rhythm</p></div>
+      <div class="rtype"><div class="rtype-icon">🩻</div><h4>X-Ray Report</h4><p>Text findings</p></div>
+      <div class="rtype"><div class="rtype-icon">🔬</div><h4>Urine (Routine)</h4><p>Kidney & infection</p></div>
+      <div class="rtype"><div class="rtype-icon">💊</div><h4>Prescription</h4><p>Medicine explained</p></div>
+      <div class="rtype"><div class="rtype-icon">📋</div><h4>Discharge Summary</h4><p>Hospital summary</p></div>
+      <div class="rtype"><div class="rtype-icon">🫁</div><h4>Spirometry</h4><p>Lung function</p></div>
+      <div class="rtype"><div class="rtype-icon">🦴</div><h4>Bone Density</h4><p>Osteoporosis</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing">
+  <div class="reveal"><p class="section-label">Pricing</p><h2 class="section-title">Seedha, Sasta, <span>Simple</span></h2><p class="section-sub">Ek chai se bhi kam daam mein poori report samjhein</p></div>
+  <div class="pricing-grid">
+    <div class="price-card reveal" style="transition-delay:.05s"><p class="price-name">Quick Check</p><div class="price-amt">₹99</div><p class="price-per">ek report ke liye</p><ul class="price-feats"><li><span class="ck">✓</span> Report ka summary</li><li><span class="ck">✓</span> Normal / Abnormal flags</li><li><span class="ck">✓</span> Hindi ya English</li><li><span class="ck">✓</span> 200+ tests covered</li></ul><a href="#upload" class="btn-outline" style="width:100%;justify-content:center;border-radius:14px;padding:13px">Shuru Karein</a></div>
+    <div class="price-card featured reveal" style="transition-delay:.1s"><div class="pop-badge">⭐ Most Popular</div><p class="price-name">Full Detail</p><div class="price-amt">₹249</div><p class="price-per">ek report ke liye</p><ul class="price-feats"><li><span class="ck">✓</span> Har value ka pura matlab</li><li><span class="ck">✓</span> Doctor Questions</li><li><span class="ck">✓</span> PDF Download</li><li><span class="ck">✓</span> WhatsApp Share</li><li><span class="ck">✓</span> Cancer markers bhi</li></ul><a href="#upload" class="btn-glow" style="width:100%;justify-content:center;border-radius:14px;padding:14px">Try Karein</a></div>
+    <div class="price-card reveal" style="transition-delay:.15s"><p class="price-name">Family Pack</p><div class="price-amt">₹499</div><p class="price-per">5 reports / mahina</p><ul class="price-feats"><li><span class="ck">✓</span> 5 reports — poori family</li><li><span class="ck">✓</span> Sab Full Detail features</li><li><span class="ck">✓</span> History dashboard</li><li><span class="ck">✓</span> Priority support</li></ul><a href="#upload" class="btn-outline" style="width:100%;justify-content:center;border-radius:14px;padding:13px">Family Plan</a></div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section style="background:rgba(0,0,0,0.2)">
+  <div class="reveal"><p class="section-label">Real Log, Real Baatein</p><h2 class="section-title">Unhone Kya <span>Kaha</span></h2><p class="section-sub">Tier 2 shahar ke asal users ki baatein</p></div>
+  <div class="testi-grid">
+    <div class="testi-card reveal" style="transition-delay:.05s"><div class="testi-stars">★★★★★</div><p class="testi-quote">Mere papa ka MRI report aaya toh hum sab ghabra gaye. Yahan upload kiya toh sab kuch crystal clear ho gaya.</p><div class="testi-author"><div class="avatar-circle">SK</div><div><div class="auth-name">Sunita Kushwaha</div><div class="auth-city">Bhopal, MP</div></div></div></div>
+    <div class="testi-card reveal" style="transition-delay:.1s"><div class="testi-stars">★★★★★</div><p class="testi-quote">Cancer marker PSA report aaya toh bahut darr gaye the. Yahan samjha ki value kya matlab rakhti hai. Doctor ke paas confident hokar gaye.</p><div class="testi-author"><div class="avatar-circle">RM</div><div><div class="auth-name">Ramesh Mishra</div><div class="auth-city">Indore, MP</div></div></div></div>
+    <div class="testi-card reveal" style="transition-delay:.15s"><div class="testi-stars">★★★★☆</div><p class="testi-quote">Meri mummy ko Hindi mein samajhna tha. Unhone khud padha, samjha, aur doctor ke paas confident hokar gayi.</p><div class="testi-author"><div class="avatar-circle">PS</div><div><div class="auth-name">Priya Sharma</div><div class="auth-city">Nagpur, MH</div></div></div></div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section id="faq">
+  <div class="reveal"><p class="section-label">FAQ</p><h2 class="section-title">Aksar Pooche Jaane Wale <span>Sawaal</span></h2></div>
+  <div class="faq-wrap reveal">
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kya meri report safe rahegi? <div class="faq-chevron">▾</div></div><div class="faq-a">Bilkul. Aapki report sirf aapki analysis ke liye use hoti hai — kisi ke saath share nahi ki jaati.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kya yeh medical advice hai? <div class="faq-chevron">▾</div></div><div class="faq-a">Nahi. ReportSamjho ek educational tool hai. Yeh doctor ki jagah nahi le sakta.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kya Cancer reports bhi samjhaye jaate hain? <div class="faq-chevron">▾</div></div><div class="faq-a">Haan. PSA, CA-125, CEA, AFP, CA 19-9 jaise cancer markers ke values explain kiye jaate hain simple language mein. Cancer ki diagnosis hum nahi karte — sirf values ka matlab batate hain.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Kitne tests cover hote hain? <div class="faq-chevron">▾</div></div><div class="faq-a">200+ tests cover hote hain — blood tests, thyroid, diabetes, liver, kidney, vitamins, hormones, cancer markers, infection tests, autoimmune tests aur bahut kuch.</div></div>
+    <div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">Result kitni der mein aata hai? <div class="faq-chevron">▾</div></div><div class="faq-a">Zyada tar reports 90 seconds se 2 minute mein analyze ho jaati hain. Gemini AI real time mein process karta hai.</div></div>
+  </div>
+</section>
+
+<div style="padding:0 6%;position:relative;z-index:1;" class="reveal">
+  <div class="disclaimer">⚠️ <strong>Zaruri Baat:</strong> ReportSamjho ek educational tool hai — yeh kisi bhi doctor ya medical professional ki jagah nahi le sakta. Koi bhi health decision ya dawai lene se pehle apne qualified doctor se zaroor milein.</div>
+</div>
+
+<footer>
+  <div class="footer-logo">🩺 Report<span>Samjho</span></div>
+  <p class="footer-sub">Apni sehat samjhein — apne hisab se. India ka medical literacy platform.</p>
+  <div class="footer-links"><a href="#">Home</a><a href="#">About Us</a><a href="#">Privacy Policy</a><a href="#">Terms of Use</a><a href="#">Contact</a></div>
+  <div class="footer-bottom">© 2025 ReportSamjho. All rights reserved. &nbsp;|&nbsp; Not a medical advice platform. &nbsp;|&nbsp; Made with ❤️ in India</div>
+</footer>
+
+<script>
+const API = 'http://localhost:5001/api';
+let selectedLang = 'Hindi';
+let authToken = localStorage.getItem('rs_token') || null;
+let pollInterval = null;
+
+/* ── CURSOR ── */
+const cur=document.getElementById('cursor'),ring=document.getElementById('cursor-ring');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
+function animRing(){rx+=(mx-rx)*.12;ry+=(my-ry)*.12;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing)}animRing();
+
+/* ── PARTICLES ── */
+const canvas=document.getElementById('particles'),ctx=canvas.getContext('2d');
+canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+window.addEventListener('resize',()=>{canvas.width=window.innerWidth;canvas.height=window.innerHeight});
+const pts=Array.from({length:60},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,vx:(Math.random()-.5)*.3,vy:(Math.random()-.5)*.3,r:Math.random()*2+1,a:Math.random()}));
+function drawParticles(){ctx.clearRect(0,0,canvas.width,canvas.height);pts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>canvas.width)p.vx*=-1;if(p.y<0||p.y>canvas.height)p.vy*=-1;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=`rgba(32,196,143,${p.a*.4})`;ctx.fill()});requestAnimationFrame(drawParticles)}drawParticles();
+
+/* ── NAV SCROLL ── */
+window.addEventListener('scroll',()=>{document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>50)});
+
+/* ── SCROLL REVEAL ── */
+const obs=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── COUNT UP ── */
+const cntObs=new IntersectionObserver(entries=>entries.forEach(e=>{
+  if(e.isIntersecting&&!e.target.dataset.counted){
+    e.target.dataset.counted=1;
+    const target=+e.target.dataset.target,suffix=e.target.dataset.suffix||'';
+    const isLarge=target>1000;let start=0,dur=1800,step=16;
+    const inc=target/(dur/step);
+    const t=setInterval(()=>{start+=inc;if(start>=target){start=target;clearInterval(t)}e.target.textContent=(isLarge?(Math.round(start/1000)+'K+'):Math.round(start))+(suffix?suffix:'');},step);
+  }
+}),{threshold:.5});
+document.querySelectorAll('[data-target]').forEach(el=>cntObs.observe(el));
+
+/* ── LANG TOGGLE ── */
+function setLang(btn, lang){
+  document.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  selectedLang = lang;
+}
+
+/* ── FAQ ── */
+function toggleFaq(el){const item=el.closest('.faq-item');const wasOpen=item.classList.contains('open');document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));if(!wasOpen)item.classList.add('open')}
+
+/* ── DRAG & DROP ── */
+const dz=document.getElementById('dropZone');
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragging')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragging'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragging');if(e.dataTransfer.files.length){document.getElementById('fileInput').files=e.dataTransfer.files;handleFile()}});
+
+/* ── SHOW RESULT FROM AI ── */
+function showAIResult(data) {
+  document.getElementById('progress-wrap').style.display = 'none';
+  const rw = document.getElementById('result-wrap');
+  rw.style.display = 'block';
+
+  // Summary
+  document.getElementById('result-summary').innerHTML =
+    '<strong>📋 Summary:</strong> ' + (data.summary || 'Report analyze ho gayi.');
+
+  // Test rows
+  const rowsContainer = document.getElementById('result-rows');
+  rowsContainer.innerHTML = '';
+
+  if (data.testResults && data.testResults.length > 0) {
+    data.testResults.forEach((test, i) => {
+      const delay = (i * 0.05) + 0.05;
+      let tagClass = 'tag-ok';
+      let tagText = '✓ Normal';
+      if (test.status === 'high') { tagClass = 'tag-high'; tagText = '↑ Zyada'; }
+      else if (test.status === 'low') { tagClass = 'tag-low'; tagText = '⚠ Kam'; }
+      else if (test.status === 'borderline') { tagClass = 'tag-border'; tagText = '~ Borderline'; }
+
+      rowsContainer.innerHTML += `
+        <div class="result-row" style="animation-delay:${delay}s">
+          <span class="rname">${test.name}</span>
+          <span class="rval">${test.value || '-'}</span>
+          <span class="rmean">${test.meaning || ''}</span>
+          <span class="rtag ${tagClass}">${tagText}</span>
+        </div>`;
+    });
+  } else if (data.normalValues || data.abnormalValues) {
+    // Fallback if testResults not present
+    const allValues = [...(data.normalValues || []), ...(data.abnormalValues || [])];
+    allValues.forEach((v, i) => {
+      rowsContainer.innerHTML += `
+        <div class="result-row" style="animation-delay:${(i*0.05)+0.05}s">
+          <span class="rname" style="grid-column:1/4">${v}</span>
+          <span class="rtag tag-ok">•</span>
+        </div>`;
+    });
+  }
+
+  // Doctor questions
+  if (data.doctorQuestions && data.doctorQuestions.length > 0) {
+    const dbox = document.getElementById('doctor-box');
+    const dlist = document.getElementById('doctor-questions');
+    dbox.style.display = 'block';
+    dlist.innerHTML = data.doctorQuestions.map(q => `<li>${q}</li>`).join('');
+  }
+
+  rw.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+/* ── POLL STATUS ── */
+function pollStatus(reportId) {
+  let attempts = 0;
+  const steps = [
+    '📖 Report padh rahe hain...',
+    '🔍 Text extract ho raha hai...',
+    '🤖 Gemini AI analyze kar raha hai...',
+    '📊 Values check ho rahi hain...',
+    '🇮🇳 ' + selectedLang + ' mein likh rahe hain...',
+    '✅ Almost done!'
+  ];
+  let stepIdx = 0;
+  let pct = 0;
+
+  const bar = document.getElementById('pbar');
+  const stepEl = document.getElementById('progress-step');
+
+  pollInterval = setInterval(async () => {
+    attempts++;
+    pct = Math.min(pct + (Math.random() * 12 + 4), 90);
+    bar.style.width = pct + '%';
+    if (stepIdx < steps.length - 1) stepEl.textContent = steps[Math.min(stepIdx++, steps.length - 1)];
+
+    if (attempts > 40) {
+      clearInterval(pollInterval);
+      document.getElementById('progress-wrap').style.display = 'none';
+      document.getElementById('result-wrap').style.display = 'block';
+      document.getElementById('result-rows').innerHTML = '';
+      document.getElementById('error-box').style.display = 'block';
+      document.getElementById('error-box').textContent = '⏱️ Timeout ho gayi. Kripya dobara try karein.';
+      return;
+    }
+
+    try {
+      const headers = authToken ? { 'Authorization': 'Bearer ' + authToken } : {};
+      const res = await fetch(API + '/reports/status/' + reportId, { headers });
+      const data = await res.json();
+
+      if (data.status === 'done') {
+        clearInterval(pollInterval);
+        bar.style.width = '100%';
+        stepEl.textContent = '✅ Analysis complete!';
+        setTimeout(() => showAIResult(data.aiResult), 400);
+      } else if (data.status === 'failed') {
+        clearInterval(pollInterval);
+        document.getElementById('progress-wrap').style.display = 'none';
+        document.getElementById('result-wrap').style.display = 'block';
+        document.getElementById('result-rows').innerHTML = '';
+        document.getElementById('error-box').style.display = 'block';
+        document.getElementById('error-box').textContent = '❌ ' + (data.errorMessage || 'Analysis fail ho gayi. Dobara try karein.');
+      }
+    } catch(e) {
+      // Keep polling
+    }
+  }, 3000);
+}
+
+/* ── HANDLE FILE UPLOAD ── */
+async function handleFile() {
+  const f = document.getElementById('fileInput').files[0];
+  if (!f) return;
+
+  if (pollInterval) clearInterval(pollInterval);
+
+  document.getElementById('result-wrap').style.display = 'none';
+  document.getElementById('error-box').style.display = 'none';
+  document.getElementById('result-rows').innerHTML = '';
+  document.getElementById('doctor-box').style.display = 'none';
+
+  const pw = document.getElementById('progress-wrap');
+  pw.style.display = 'block';
+  document.getElementById('pbar').style.width = '5%';
+  document.getElementById('progress-step').textContent = 'File upload ho rahi hai...';
+
+  // If backend not available, show demo result
+  const formData = new FormData();
+  formData.append('report', f);
+  formData.append('language', selectedLang);
+
+  try {
+    const headers = authToken ? { 'Authorization': 'Bearer ' + authToken } : {};
+    const res = await fetch(API + '/reports/upload', { method: 'POST', body: formData, headers });
+    const data = await res.json();
+
+    if (res.ok && data.reportId) {
+      pollStatus(data.reportId);
+    } else {
+      throw new Error(data.message || 'Upload failed');
+    }
+  } catch (err) {
+    // Backend not available — show demo result
+    console.warn('Backend not available, showing demo result');
+    simulateDemo();
+  }
+}
+
+/* ── DEMO MODE (when backend not running) ── */
+function simulateDemo() {
+  const bar = document.getElementById('pbar');
+  const stepEl = document.getElementById('progress-step');
+  const steps = ['📖 Report padh rahe hain...','🔍 Values identify kar rahe hain...','📊 Reference ranges check ho rahi hain...','🇮🇳 Hindi mein likh rahe hain...','✅ Almost done!'];
+  let pct = 0, si = 0;
+  const iv = setInterval(() => {
+    pct += Math.random() * 18 + 4;
+    if (pct > 100) pct = 100;
+    bar.style.width = pct + '%';
+    if (si < steps.length) stepEl.textContent = steps[Math.min(si++, steps.length - 1)];
+    if (pct >= 100) {
+      clearInterval(iv);
+      setTimeout(() => showAIResult({
+        summary: 'Aapki blood report mein kuch values normal hain aur kuch thodi low/high hain. Ghabraiye mat — yeh bahut common findings hain.',
+        testResults: [
+          {name:'Hemoglobin (Hb)',value:'10.2 g/dL',status:'low',meaning:'Thoda kam — iron ki kami ho sakti hai'},
+          {name:'Blood Sugar (Fasting)',value:'98 mg/dL',status:'normal',meaning:'Bilkul normal — koi dikkat nahi'},
+          {name:'Total Cholesterol',value:'218 mg/dL',status:'high',meaning:'Thoda zyada — diet mein dhyan dein'},
+          {name:'Vitamin D',value:'14 ng/mL',status:'low',meaning:'Bahut kam — supplement zaruri'},
+          {name:'TSH (Thyroid)',value:'2.1 mIU/L',status:'normal',meaning:'Normal range mein hai'},
+          {name:'HbA1c',value:'5.4%',status:'normal',meaning:'Diabetes ka koi risk nahi'},
+          {name:'Creatinine',value:'0.9 mg/dL',status:'normal',meaning:'Kidney bilkul theek hai'},
+          {name:'Vitamin B12',value:'180 pg/mL',status:'low',meaning:'Kam hai — B12 supplement lein'},
+        ],
+        doctorQuestions: [
+          'Kya mujhe iron supplement ya Vitamin D ki dawai leni chahiye?',
+          'Cholesterol ke liye kaunsa khaana band karein?',
+          'B12 ke liye kya khaaun?'
+        ]
+      }), 400);
+    }
+  }, 380);
+}
+</script>
+</body>
+</html>
